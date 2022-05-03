@@ -1,0 +1,26 @@
+#! /bin/bash
+
+
+get_directory() {
+	read -p "Directory Name? " directory
+	mkdir ~/Desktop/email
+}
+get_vic_ip() {
+	read -p "Victim IP? " address
+	export IP=$address
+}
+get_directory
+get_vic_ip
+
+echo "Which tool 1)Nmap 2)Gobuster 3)Nikto? " 
+read -a tool
+for i in "${tool[@]}"; do
+	if [[ "$i" == 1 ]]; then
+		nmap -sC -sV -oN $directory/nmap $IP 
+	elif [[ "$i" == 2 ]]; then
+		gobuster dir -u http://$IP -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -x php,jpg,txt,aspx,html | tee $directory/gobuster.log
+	elif [[ "$i" == 3 ]]; then
+		nikto -h http://$IP | tee $directory/nikto.log	
+	fi
+done
+
