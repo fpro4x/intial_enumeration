@@ -3,7 +3,7 @@
 
 get_directory() {
 	read -p "Directory Name? " directory
-	mkdir ~/Desktop/email
+	mkdir ~/Desktop/$directory
 }
 get_vic_ip() {
 	read -p "Victim IP? " address
